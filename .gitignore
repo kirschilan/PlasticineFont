@@ -1,0 +1,43 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# VS Code settings
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Output images
+output/
+
+# Logs or temp
+*.log
+*.tmp
+
+# Test output artifacts (optional)
+test/__pycache__/
+
+# Pip environment files (optional)
+*.env
+.env/
+venv/
+.venv/
+
+# Backup or autosave files
+*~
+*.swp
+
+# Vectorizer cache (if applicable)
+.vectorizer/
+
+# Fonts or large binaries (if generated)
+*.ttf
+*.otf
+*.woff
+*.woff2
+
+# Optionally ignore large assets
+# data/
+# !data/AlphaCaps/

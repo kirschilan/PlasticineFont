@@ -3,7 +3,7 @@ import sys
 import os
 from PIL import Image
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from String2PNG import generate_text_image
+from src.String2PNG import generate_text_image
 
 def project_path(*subdirs):
     return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", *subdirs))

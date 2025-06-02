@@ -12,6 +12,9 @@ __pycache__/
 # Output images
 output/
 
+# playground files for testing stuff
+
+
 # Logs or temp
 *.log
 *.tmp

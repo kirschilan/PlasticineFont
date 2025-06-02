@@ -1,8 +1,15 @@
 # 🧱 PlasticineFont
 
-**PlasticineFont** is a Python-based tool that transforms alphanumeric strings into images composed of handcrafted, plasticine-style letters. Ideal for creative projects, educational materials, or any application requiring a playful and tactile typographic aesthetic.
-
+PlasticineFont is a Python tool that generates images of text using handcrafted, plasticine-style letters. It's ideal for creating playful and tactile typographic designs.
 ![Sample Output](output/sample_output.png)
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
@@ -38,15 +45,15 @@ PlasticineFont/
 - Python 3.6 or higher
 - [Pillow](https://python-pillow.org/) library for image processing
 
-### Installation
+## Installation
 
-1. **Clone the repository:**
-
+1. Clone the repository:
    ```bash
    git clone https://github.com/kirschilan/PlasticineFont.git
    cd PlasticineFont
-# Install Dependencies
-   pip install Pillow
+
+2. Install Dependencies
+   pip install -r requirements.txt
 
 # Usage (WIP)
   python String2PNG.py "HELLO WORLD"
@@ -80,3 +87,14 @@ Ensure the functionality of the script by running the provided unit tests:
  • Include special symbols and punctuation
  • Develop a GUI for user-friendly interaction
  
+🤝 Contributing
+Contributions are welcome! Please fork the repository and submit a pull request with your enhancements.
+
+📄 License
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
+📬 Contact
+For questions or suggestions, please open an issue on the GitHub repository.
+

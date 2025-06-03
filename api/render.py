@@ -1,3 +1,4 @@
+from config import DEFAULT_LETTER_FOLDER
 from plasticinefont.renderer import generate_text_image
 from io import BytesIO
 from PIL import Image
@@ -5,7 +6,7 @@ import os
 
 def handler(request, response):
     text = request.args.get("text", "WAY TO GO")
-    letter_folder = request.args.get("letter_folder", "data/AlphaCaps")
+    letter_folder = request.args.get("letter_folder", DEFAULT_LETTER_FOLDER)
     spacing = int(request.args.get("spacing", 10))
 
     output = BytesIO()

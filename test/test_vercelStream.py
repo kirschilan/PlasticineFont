@@ -5,6 +5,7 @@ import os
 
 from api.render import handler
 from plasticinefont.renderer import generate_text_image
+from plasticinefont import config
 
 
 def test_generate_text_image_to_stream():
@@ -48,3 +49,8 @@ def test_generate_text_image_to_file_regression(tmp_path):
     assert output_file.exists()
     assert output_file.read_bytes()[:8] == b'\x89PNG\r\n\x1a\n'
 
+def test_glyphs_accessible_from_vercel():
+    folder = config.DEFAULT_LETTER_FOLDER
+    print("Checking glyph folder:", folder)
+    assert os.path.exists(folder), "Glyph folder missing"
+    assert os.listdir(folder), "Glyph folder is empty"

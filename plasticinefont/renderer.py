@@ -1,5 +1,6 @@
 # Re-imports after kernel reset
 import os
+from io import BytesIO
 from PIL import Image, ImageOps
 from plasticinefont.config import DEFAULT_LETTER_FOLDER
 from plasticinefont.glyph.loader import load_and_process_glyph
@@ -7,8 +8,9 @@ from plasticinefont.glyph.loader import load_and_process_glyph
 
 def generate_text_image(
     text,
-    output_path="./output/output.png",
-    letter_folder="./data/AlphaCaps",
+    output_path=None,
+    output_stream=None,
+    letter_folder=DEFAULT_LETTER_FOLDER,
     spacing=10,
     space_width=40,
     glyph_target_height=80,
@@ -39,10 +41,15 @@ def generate_text_image(
         output_img.paste(im, (x_offset, 0), im)
         x_offset += im.width + spacing
 
-    output_dir = os.path.dirname(output_path) or "."
-    os.makedirs(output_dir, exist_ok=True)
-    output_img.save(output_path)
-    print(f"✅ Image saved to {output_path}")
+    if output_stream:
+        output_img.save(output_stream, format="PNG")
+    elif output_path:
+        output_dir = os.path.dirname(output_path) or "."
+        os.makedirs(output_dir, exist_ok=True)
+        output_img.save(output_path)
+        print(f"✅ Image saved to {output_path}")
+    else:
+        raise ValueError("Either output_path or output_stream must be provided.")
 
 # Example usage:
 if __name__ == "__main__":

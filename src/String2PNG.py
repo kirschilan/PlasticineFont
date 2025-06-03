@@ -1,52 +1,74 @@
+# Re-imports after kernel reset
 import os
-from PIL import Image
+from PIL import Image, ImageOps
+
+def tight_crop(image, margin=2, min_alpha=5):
+    """Crop the image to the visible glyph area with some margin."""
+    alpha = image.split()[-1]
+    bw = alpha.point(lambda a: 255 if a > min_alpha else 0)
+    bbox = bw.getbbox()
+    if not bbox:
+        return image
+    left = max(bbox[0] - margin, 0)
+    top = max(bbox[1] - margin, 0)
+    right = min(bbox[2] + margin, image.width)
+    bottom = min(bbox[3] + margin, image.height)
+    return image.crop((left, top, right, bottom))
 
 def generate_text_image(
     text,
     output_path="./output/output.png",
     letter_folder="./data/AlphaCaps",
     spacing=10,
-    space_width=40
+    space_width=40,
+    glyph_target_height=80,
+    canvas_height=100
 ):
-    text = text.upper()
-    valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-    text = ''.join([c for c in text if c in valid_chars])
+    letter_images = []
 
-    if not text:
-        raise ValueError("Input must contain at least one valid capital letter (A–Z or space).")
-
-    # Step 1: Preload letters (except spaces) to determine max height
-    preloaded = {}
-    max_height = 0
-    for char in set(text):
+    for char in text.upper():
         if char == " ":
+            space_img = Image.new("RGBA", (space_width, canvas_height), (255, 255, 255, 0))
+            letter_images.append(space_img)
             continue
-        filepath = os.path.join(letter_folder, f"{char}.png")
-        if not os.path.isfile(filepath):
-            raise FileNotFoundError(f"Missing image for letter '{char}' at {filepath}")
-        img = Image.open(filepath).convert("RGBA")
-        preloaded[char] = img
-        max_height = max(max_height, img.height)
 
-    # Step 2: Build letter list
-    letters = []
-    for char in text:
-        if char == " ":
-            space_img = Image.new("RGBA", (space_width, max_height), (0, 0, 0, 0))
-            letters.append(space_img)
-        else:
-            letters.append(preloaded[char])
+        letter_path = os.path.join(letter_folder, f"{char}.png")
+        if not os.path.exists(letter_path):
+            continue  # skip unsupported characters
 
-    # Step 3: Combine into one image
-    total_width = sum(img.width for img in letters) + spacing * (len(letters) - 1)
-    output_image = Image.new("RGBA", (total_width, max_height), (0, 0, 0, 0))
+        img = Image.open(letter_path).convert("RGBA")
 
-    x = 0
-    for img in letters:
-        output_image.paste(img, (x, (max_height - img.height) // 2), img)
-        x += img.width + spacing
+        # Tightly crop visible content with margin
+        img = tight_crop(img, margin=2)
 
-    output_image.save(output_path)
+        # Resize glyph content to consistent height
+        if img.height != glyph_target_height:
+            new_width = int((glyph_target_height / img.height) * img.width)
+            img = img.resize((new_width, glyph_target_height), Image.LANCZOS)
+
+        # Paste onto standard canvas
+        canvas = Image.new("RGBA", (img.width, canvas_height), (255, 255, 255, 0))
+        y_offset = (canvas_height - glyph_target_height) // 2
+        canvas.paste(img, (0, y_offset), img)
+
+        letter_images.append(canvas)
+
+    if not letter_images:
+        raise FileNotFoundError(
+            f"No valid letter images found for input '{text}'. "
+            f"Check if all characters have corresponding image files in '{letter_folder}'."
+        )
+    
+    total_width = sum(im.width for im in letter_images) + spacing * (len(letter_images) - 1)
+    output_img = Image.new("RGBA", (total_width, canvas_height), (255, 255, 255, 0))
+
+    x_offset = 0
+    for im in letter_images:
+        output_img.paste(im, (x_offset, 0), im)
+        x_offset += im.width + spacing
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    output_img.save(output_path)
     print(f"✅ Image saved to {output_path}")
 
 # Example usage:

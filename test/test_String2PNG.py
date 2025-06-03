@@ -46,19 +46,25 @@ class TestGenerateTextImage(unittest.TestCase):
         self.assertGreater(img.width, 0)
 
     def test_empty_input_raises(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(FileNotFoundError):
             generate_text_image("123456", output_path=self.output_file, letter_folder=self.letter_folder)
 
-    def test_missing_letter_raises(self):
-        missing_path = os.path.join(self.letter_folder, "Z.png")
-        if os.path.exists(missing_path):
-            os.rename(missing_path, missing_path + ".bak")
-        try:
-            with self.assertRaises(FileNotFoundError):
-                generate_text_image("Z", output_path=self.output_file, letter_folder=self.letter_folder)
-        finally:
-            if os.path.exists(missing_path + ".bak"):
-                os.rename(missing_path + ".bak", missing_path)
+
+    def test_fails_on_missing_letter_file(self):
+        test_string = "Ñ"  # Not supported by current glyph set
+        with self.assertRaises(FileNotFoundError):
+            generate_text_image(test_string, output_path=self.output_file, letter_folder=self.letter_folder)
+
+    def test_missing_glyph_raises_with_message(self):
+        test_string = "Ñ"
+        with self.assertRaises(FileNotFoundError) as context:
+            generate_text_image(test_string, output_path=self.output_file, letter_folder=self.letter_folder)
+
+        msg = str(context.exception)
+        self.assertIn("No valid letter images found", msg)
+        self.assertIn(test_string, msg)
+        self.assertIn(self.letter_folder, msg)
+
 
 if __name__ == "__main__":
     unittest.main()

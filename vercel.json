@@ -5,7 +5,7 @@
       "src": "api/render.py",
       "use": "@vercel/python"
     },
-        {
+    {
       "src": "api/ping.py",
       "use": "@vercel/python"
     }

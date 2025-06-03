@@ -27,6 +27,7 @@
       "includeFiles": [
         "data/AlphaCaps/**"
       ]
-    }
+    },
+    "api/ping.py": {}
   }
 }

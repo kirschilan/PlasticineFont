@@ -54,3 +54,28 @@ def test_glyphs_accessible_from_vercel():
     print("Checking glyph folder:", folder)
     assert os.path.exists(folder), "Glyph folder missing"
     assert os.listdir(folder), "Glyph folder is empty"
+
+def test_default_letter_folder_resolves():
+    assert os.path.exists(config.DEFAULT_LETTER_FOLDER), \
+        f"DEFAULT_LETTER_FOLDER missing: {config.DEFAULT_LETTER_FOLDER}"
+
+    assert any(
+        fname.endswith(".png")
+        for fname in os.listdir(config.DEFAULT_LETTER_FOLDER)
+    ), "No PNG files found in letter folder"
+
+from plasticinefont.renderer import generate_text_image
+from io import BytesIO
+
+def test_render_with_default_folder():
+    buffer = BytesIO()
+    generate_text_image("HI", output_stream=buffer)  # No need to pass folder!
+    buffer.seek(0)
+    content = buffer.read()
+
+    assert content[:8] == b'\x89PNG\r\n\x1a\n'
+
+def test_config_path_is_absolute():
+    from plasticinefont import config
+    assert os.path.isabs(config.DEFAULT_LETTER_FOLDER)
+

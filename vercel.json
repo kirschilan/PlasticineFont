@@ -1,9 +1,22 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/render.py", "use": "@vercel/python" }
+    {
+      "src": "api/render.py",
+      "use": "@vercel/python"
+    }
   ],
   "routes": [
-    { "src": "/api/render", "dest": "api/render.py" }
-  ]
+    {
+      "src": "/api/render",
+      "dest": "api/render.py"
+    }
+  ],
+  "functions": {
+    "api/render.py": {
+      "includeFiles": [
+        "data/AlphaCaps/**"
+      ]
+    }
+  }
 }

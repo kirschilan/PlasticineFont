@@ -24,9 +24,7 @@
   ],
   "functions": {
     "api/render.py": {
-      "includeFiles": [
-        "data/AlphaCaps/**"
-      ]
+      "includeFiles": "data/AlphaCaps/**"
     },
     "api/ping.py": {}
   }

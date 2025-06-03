@@ -11,7 +11,8 @@ def handler(request, response):
     output = BytesIO()
     generate_text_image(
         text=text,
-        output_path=output,
+        output_path=None,  # Explicitly prevent accidental use
+        output_stream=output,
         letter_folder=letter_folder,
         spacing=spacing
     )

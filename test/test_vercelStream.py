@@ -1,9 +1,10 @@
 import unittest
 import sys
 import os
-sys.path.insert(0, os.path.abspath("."))  # add the root folder to Python path
+#sys.path.insert(0, os.path.abspath("."))  # add the root folder to Python path
 
-from api.index import handler
+from api.render import handler
+from plasticinefont.renderer import generate_text_image
 
 
 def test_generate_text_image_to_stream():
@@ -19,7 +20,6 @@ def test_generate_text_image_to_stream():
     assert len(content) > 100, "PNG content too short, something went wrong"
 
 def test_handler_returns_png():
-    from api.index import handler
     from types import SimpleNamespace
 
     # Simulate Vercel-style request and response objects
@@ -35,7 +35,6 @@ def test_handler_returns_png():
 
 def test_generate_text_image_skips_unsupported_chars():
     from io import BytesIO
-    from plasticinefont.renderer import generate_text_image
 
     buffer = BytesIO()
     generate_text_image("HI@", output_stream=buffer)  # Assuming @ doesn't exist
@@ -43,7 +42,6 @@ def test_generate_text_image_skips_unsupported_chars():
     assert buffer.read()[:8] == b'\x89PNG\r\n\x1a\n'
 
 def test_generate_text_image_to_file_regression(tmp_path):
-    from plasticinefont.renderer import generate_text_image
     output_file = tmp_path / "output.png"
     generate_text_image("HI", output_path=str(output_file))
 

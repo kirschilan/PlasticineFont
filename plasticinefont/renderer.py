@@ -41,9 +41,9 @@ def generate_text_image(
         output_img.paste(im, (x_offset, 0), im)
         x_offset += im.width + spacing
 
-    if output_stream:
+    if output_stream is not None:
         output_img.save(output_stream, format="PNG")
-    elif output_path:
+    elif output_path is not None:
         output_dir = os.path.dirname(output_path) or "."
         os.makedirs(output_dir, exist_ok=True)
         output_img.save(output_path)

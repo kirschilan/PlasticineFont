@@ -23,6 +23,9 @@ playground/
 # Test output artifacts (optional)
 test/__pycache__/
 
+# pytest cache
+.pytest_cache/
+
 # Pip environment files (optional)
 *.env
 .env/
@@ -45,3 +48,8 @@ venv/
 # Optionally ignore large assets
 # data/
 # !data/AlphaCaps/
+
+# Packaging artifacts
+*.egg-info/
+dist/
+build/

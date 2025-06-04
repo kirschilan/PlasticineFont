@@ -1,8 +1,7 @@
 from plasticinefont.renderer import generate_text_image
 from io import BytesIO
-import base64
 
-def handler(request):
+def handler(request, response):
     text = request.args.get("text", "WAY TO GO")
     spacing = int(request.args.get("spacing", 10))
 
@@ -14,13 +13,7 @@ def handler(request):
     )
 
     output.seek(0)
-    image_bytes = output.read()
-
-    return {
-        "statusCode": 200,
-        "headers": {
-            "Content-Type": "image/png"
-        },
-        "body": base64.b64encode(image_bytes).decode("utf-8"),
-        "isBase64Encoded": True
-    }
+    response.status_code = 200
+    response.headers["Content-Type"] = "image/png"
+    response.body = output.read()
+    return response

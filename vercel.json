@@ -1,19 +1,9 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/api/render",
-      "dest": "api/render.py"
-    },
-    {
-      "src": "/api/ping",
-      "dest": "api/ping.py"
-    }
-
+  "builds": [
+    { "src": "api/index.py", "use": "@vercel/python" }
   ],
-  "functions": {
-    "api/render.py": {
-      "includeFiles": "data/AlphaCaps/**"
-    }
-  }
+  "routes": [
+    { "src": "/api/ping", "dest": "api/index.py" }
+  ]
 }

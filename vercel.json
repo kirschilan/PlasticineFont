@@ -1,9 +1,10 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.py", "use": "@vercel/python" }
+    { "src": "api/*.py", "use": "@vercel/python" }
   ],
   "routes": [
-    { "src": "/api/ping", "dest": "api/index.py" }
+    { "src": "/api/ping", "dest": "api/ping.py" },
+    { "src": "/api/render", "dest": "api/render.py" }
   ]
 }

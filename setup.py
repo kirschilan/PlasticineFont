@@ -7,8 +7,11 @@ setup(
     author="kirschilan",
     packages=find_packages(),
     install_requires=[
-        "Pillow"
-    ],
+        "Pillow",
+        "pygments",
+        "olefile",
+        "fs"
+],
     include_package_data=True,  # Ensures data files (like images) are included
     entry_points={
         'console_scripts': [

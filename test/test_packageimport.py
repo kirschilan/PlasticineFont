@@ -1,5 +1,5 @@
 import unittest
-#import pytest
+import pytest
 import sys
 import os
 import subprocess
@@ -11,14 +11,16 @@ def test_import_string2png_module():
         pytest.fail("Failed to import generate_text_image from plasticinefont.string2png")
 
 
-def test_cli_invocation():
+def test_cli_invocation(tmp_path):
+    output_path = tmp_path / "test_output.png"
     result = subprocess.run(
-        ["string2png", "HI", "--output", "test_output.png"],
+        ["string2png", "HI", "--output", str(output_path)],
         capture_output=True,
         text=True
     )
     assert result.returncode == 0, f"CLI failed: {result.stderr}"
     assert "Image saved" in result.stdout
+    assert output_path.exists()
 
 def test_installed_package_generates_image(tmp_path):
     from plasticinefont.renderer import generate_text_image

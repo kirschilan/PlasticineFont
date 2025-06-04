@@ -15,7 +15,6 @@ output/
 # playground files for testing stuff
 playground/
 
-
 # Logs or temp
 *.log
 *.tmp
@@ -54,3 +53,13 @@ venv/
 dist/
 build/
 .vercel
+
+# Ignore installed packages and metadata accidentally checked in
+PIL/
+pluggy/
+werkzeug/
+pygments/
+pytest/
+iniconfig/
+packaging/
+*.dist-info/

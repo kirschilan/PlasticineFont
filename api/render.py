@@ -1,4 +1,4 @@
-'''from plasticinefont.renderer import generate_text_image
+from plasticinefont.renderer import generate_text_image
 from io import BytesIO
 
 def handler(request, response):
@@ -17,8 +17,4 @@ def handler(request, response):
     response.headers["Content-Type"] = "image/png"
     response.body = output.read()
     return response
-'''
-def handler(request, response):
-    response.status_code = 200
-    response.body = "pong"
-    return response
+

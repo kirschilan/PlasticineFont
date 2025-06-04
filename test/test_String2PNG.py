@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+import tempfile
 from PIL import Image
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from plasticinefont.renderer import generate_text_image
@@ -12,7 +13,8 @@ class TestGenerateTextImage(unittest.TestCase):
 
     def setUp(self):
         self.letter_folder = project_path("data", "AlphaCaps")
-        self.output_file = project_path("output", "test_output.png")
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.output_file = os.path.join(self.temp_dir.name, "test_output.png")
         if not os.path.isdir(self.letter_folder):
             self.skipTest("AlphaCaps folder not found")
 

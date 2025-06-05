@@ -23,20 +23,22 @@ def fetch_and_save_glyphs(
             f.write(img_data)
 
 if __name__ == "__main__":
-    import openai
+    from openai import OpenAI
+    
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     import requests
 
-    openai.api_key = os.getenv("OPENAI_API_KEY")
     template_prompt = (
         "Generate a plasticine-style capital letter '{letter}'. "
         "Match the style of this example: light off-white plasticine, soft shadow, clean background, "
         "centered letter, same lighting, and same resolution. Output only the image."
     )
-    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    letters = "AB"
     output_dir = "output/glyphs_interim"
 
     def openai_image_create(**kwargs):
-        return openai.Image.create(**kwargs)
+        return client.images.generate(**kwargs)
 
     def image_downloader(url):
         return requests.get(url).content

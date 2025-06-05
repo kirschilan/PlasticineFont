@@ -14,7 +14,7 @@ def test_import_string2png_module():
 def test_cli_invocation(tmp_path):
     output_path = tmp_path / "test_output.png"
     result = subprocess.run(
-        ["string2png", "HI", "--output", str(output_path)],
+        [sys.executable, "-m", "plasticinefont.cli", "HI", "--output", str(output_path)],
         capture_output=True,
         text=True
     )

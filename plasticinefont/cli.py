@@ -18,3 +18,6 @@ def main():
         output_path=args.output,
         letter_folder=letter_folder
     )
+
+if __name__ == "__main__":
+    main()

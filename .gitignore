@@ -63,3 +63,6 @@ pytest/
 iniconfig/
 packaging/
 *.dist-info/
+
+# Ignore image LLMs
+models/

@@ -1,3 +1,14 @@
 # dev-requirements.txt
 openai
 requests
+
+torch
+torchvision
+torchaudio
+diffusers
+transformers
+accelerate
+safetensors
+peft
+rembg
+onnxruntime

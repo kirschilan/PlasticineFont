@@ -21,6 +21,12 @@ run: test
 	@OPENAI_API_KEY=$$(security find-generic-password -a $$USER -s openai_api_key -w) \
 	$(PYTHON) utils/generate_glyphs.py
 
+glyph: test
+	$(PYTHON) utils/glyphs_maker_diffusers.py
+
+alpha: test
+	$(PYTHON) utils/glyph_bg_to_alpha.py
+
 git-push: test
 	@if [ -z "$(m)" ]; then \
 		echo "Usage: make git-push m='your commit message'"; \

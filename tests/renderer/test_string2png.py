@@ -1,13 +1,17 @@
 import unittest
+from unittest.mock import patch, ANY
 import sys
 import os
 import tempfile
 from PIL import Image
+from io import BytesIO
+
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from plasticinefont.renderer import generate_text_image
 
 def project_path(*subdirs):
-    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", *subdirs))
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", *subdirs))
 
 class TestGenerateTextImage(unittest.TestCase):
 
@@ -66,6 +70,17 @@ class TestGenerateTextImage(unittest.TestCase):
         self.assertIn("No valid letter images found", msg)
         self.assertIn(test_string, msg)
         self.assertIn(self.letter_folder, msg)
+
+    def test_render_glyph_invokes_colorizer_with_color(self):
+        dummy_image = Image.new("RGBA", (100, 100), (255, 255, 255, 255))
+        dummy_output = BytesIO()
+
+        with patch("plasticinefont.renderer.colorize_image", return_value=dummy_image) as mock_colorize, \
+            patch("plasticinefont.glyph.loader.load_and_process_glyph", return_value=dummy_image):
+            
+            generate_text_image("A", output_stream=dummy_output, color=(238, 174, 104))
+            
+            mock_colorize.assert_called_once_with(ANY, (238, 174, 104))
 
 
 if __name__ == "__main__":

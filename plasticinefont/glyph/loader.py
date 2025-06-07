@@ -2,6 +2,7 @@ import os
 from PIL import Image
 from plasticinefont.glyph.crop import tight_crop
 
+
 def load_and_process_glyph(char, folder, glyph_target_height, canvas_height):
     letter_path = os.path.join(folder, f"{char}.png")
     if not os.path.exists(letter_path):

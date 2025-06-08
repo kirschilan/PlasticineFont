@@ -86,7 +86,8 @@ class TestLetterRendering(unittest.TestCase):
 
         max_height = max(letter_heights)
         min_height = min(letter_heights)
-        tolerance = 4  # pixels
+        tolerance_pct = 0.04  # 3%
+        tolerance = int(max_height * tolerance_pct)
 
         self.assertLessEqual(
             max_height - min_height,

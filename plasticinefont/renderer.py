@@ -15,8 +15,8 @@ def generate_text_image(
     letter_folder=DEFAULT_LETTER_FOLDER,
     spacing=10,
     space_width=40,
-    glyph_target_height=80,
-    canvas_height=100,
+    glyph_target_height=256,
+    canvas_height=280,
     color=None  # <- NEW: should be a tuple like (238, 174, 104)
 ):
     letter_images = []

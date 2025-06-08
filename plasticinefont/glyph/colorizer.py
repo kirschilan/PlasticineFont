@@ -4,10 +4,20 @@ import numpy as np
 def colorize_image(image: Image.Image, target_rgb: tuple[int, int, int]) -> Image.Image:
     """
     Apply a soft color tint to a transparent plasticine glyph image.
-    Preserves texture, shading, and transparency.
+
+    Args:
+        image (PIL.Image.Image): The input RGBA glyph image.
+        target_rgb (tuple[int, int, int]): The (R, G, B) color to tint the glyph.
+
+    Returns:
+        PIL.Image.Image: The colorized image, preserving texture and transparency.
+
+    Raises:
+        ValueError: If the input image is None or not in RGBA mode.
     """
     if image is None:
         raise ValueError("Input image is None. Check that the glyph file exists and is loaded correctly.")
+    
     if image.mode != "RGBA":
         raise ValueError("Input image must be in RGBA mode")
 

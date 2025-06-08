@@ -19,6 +19,26 @@ def generate_text_image(
     canvas_height=280,
     color=None  # <- NEW: should be a tuple like (238, 174, 104)
 ):
+    """
+    Render a string as an image using plasticine glyphs, with optional colorization.
+
+    Args:
+        text (str): The text to render.
+        output_path (str, optional): Path to save the output PNG.
+        output_stream (file-like, optional): Stream to write the PNG to.
+        letter_folder (str): Path to glyph images.
+        spacing (int): Space between letters (pixels).
+        space_width (int): Width of space character (pixels).
+        glyph_target_height (int): Height to scale each glyph to (pixels).
+        canvas_height (int): Height of the output image (pixels).
+        color (tuple[int, int, int], optional): RGB color for tinting glyphs.
+
+    Returns:
+        bytes: The PNG image as bytes if no output_path or output_stream is given.
+
+    Raises:
+        FileNotFoundError: If no valid letter images are found for the input text.
+    """
     letter_images = []
 
     for char in text.upper():

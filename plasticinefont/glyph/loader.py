@@ -8,6 +8,19 @@ import os
 from PIL import Image
 
 def load_and_process_glyph(char, letter_folder, glyph_target_height, canvas_height):
+    """
+    Load a glyph image, crop to non-transparent content, resize to target height,
+    and vertically center it on a blank canvas.
+
+    Args:
+        char (str): The character to load (expects a PNG named '{char}.png').
+        letter_folder (str): Path to the folder containing glyph images.
+        glyph_target_height (int): The desired height for the glyph image.
+        canvas_height (int): The height of the output canvas.
+
+    Returns:
+        PIL.Image.Image or None: The processed glyph image, or None if not found.
+    """
     glyph_path = os.path.join(letter_folder, f"{char}.png")
     if not os.path.exists(glyph_path):
         return None

@@ -20,13 +20,29 @@ class handler(BaseHTTPRequestHandler):
         text = query.get("text", ["WAY TO GO"])[0]
         spacing = int(query.get("spacing", [10])[0])
 
-       # ✅ Extract color string, if present
+        # Extract and validate color string, with error handling
         color_str = query.get("color", [None])[0]
-        color = tuple(map(int, color_str.split(","))) if color_str else None
+        color = None
+        if color_str:
+            try:
+                color = tuple(map(int, color_str.split(",")))
+                if len(color) != 3 or not all(0 <= c <= 255 for c in color):
+                    raise ValueError("Color must be three integers between 0 and 255")
+            except Exception as e:
+                self.send_response(400)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(f'{{"error": "Invalid color parameter: {e}"}}'.encode())
+                return
 
-        image_bytes = render_image(text, spacing, color=color)
-        
-        self.send_response(200)
-        self.send_header("Content-type", "image/png")
-        self.end_headers()
-        self.wfile.write(image_bytes)
+        try:
+            image_bytes = render_image(text, spacing, color=color)
+            self.send_response(200)
+            self.send_header("Content-type", "image/png")
+            self.end_headers()
+            self.wfile.write(image_bytes)
+        except Exception as e:
+            self.send_response(500)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(f'{{"error": "Render failed: {e}"}}'.encode())

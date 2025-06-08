@@ -27,10 +27,11 @@ def generate_text_image(
             letter_images.append(space_img)
             continue
         glyph = load_and_process_glyph(char, letter_folder, glyph_target_height, canvas_height)
-        if color:
-            glyph = colorize_image(glyph, color)
-        if glyph:
-            letter_images.append(glyph)
+        if glyph is not None:
+            if color:
+                glyph = colorize_image(glyph, color)
+            if glyph:
+                letter_images.append(glyph)
 
     if not letter_images:
         raise FileNotFoundError(

@@ -15,6 +15,13 @@ def render_image(text, spacing, color=None):
     return output.read()
 
 class handler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
     def do_GET(self):
         query = parse_qs(urlparse(self.path).query)
         text = query.get("text", ["WAY TO GO"])[0]
@@ -31,6 +38,7 @@ class handler(BaseHTTPRequestHandler):
             except Exception as e:
                 self.send_response(400)
                 self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
                 self.end_headers()
                 self.wfile.write(f'{{"error": "Invalid color parameter: {e}"}}'.encode())
                 return
@@ -39,10 +47,12 @@ class handler(BaseHTTPRequestHandler):
             image_bytes = render_image(text, spacing, color=color)
             self.send_response(200)
             self.send_header("Content-type", "image/png")
+            self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(image_bytes)
         except Exception as e:
             self.send_response(500)
             self.send_header("Content-type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(f'{{"error": "Render failed: {e}"}}'.encode())

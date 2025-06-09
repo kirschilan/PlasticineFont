@@ -5,7 +5,7 @@
   ],
   "routes": [
     { "src": "/api/ping", "dest": "api/ping.py" },
-    { "src": "/api/render", "dest": "api/render.py" }
+    { "src": "/api/render", "dest": "api/render.py" },
     { "src": "/(.*)", "dest": "frontend/$1" }
   ]
 }

@@ -14,6 +14,9 @@ install: venv
 	@$(PIP) install -r dev-requirements.txt
 	@$(PIP) install -e .
 
+install-glyph-maker:
+	@$(PIP) install -r requirements-glyph.txt
+
 test: install
 	@$(PYTHON) -m pytest
 
@@ -21,10 +24,10 @@ run: test
 	@OPENAI_API_KEY=$$(security find-generic-password -a $$USER -s openai_api_key -w) \
 	$(PYTHON) utils/generate_glyphs.py
 
-glyph: test
+glyph: test install-glyph-maker
 	$(PYTHON) utils/glyphs_maker_diffusers.py
 
-alpha: test
+alpha: test install-glyph-maker
 	$(PYTHON) utils/glyph_bg_to_alpha.py
 
 git-push: test

@@ -12,4 +12,3 @@ onnxruntime
 pygments
 olefile
 fs
-numpy

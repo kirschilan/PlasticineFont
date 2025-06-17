@@ -142,12 +142,45 @@ pytest
 - ✅ Generate images from uppercase English letters
 - ✅ Add colorizing feature
 - Improve uppercase letterset
-- Add UI
-- Add font size
+- ✅ Add UI
+- ✅ Add font size
 - Add support for lowercase letters
 - Incorporate Hebrew characters
 - Include special symbols and punctuation
 - Develop a GUI for user-friendly interaction
+
+## TODO: Lowercase Letter Support & Spacing
+
+1. **Add Lowercase Letter Support**
+   - [ ] Write a test to verify that uppercase and lowercase letters (e.g., 'A' and 'a') are NOT the same height.
+   - [ ] Implement code to make lowercase letters shorter than uppercase.
+   - [ ] Write a test to verify that two lowercase letters (e.g., 'aa') are rendered at the correct (same) height.
+   - [ ] Write a test for a lowercase letter with a descender (e.g., 'ag') to ensure correct baseline and descender rendering.
+   - [ ] Implement code to handle descenders and ascenders in lowercase letters.
+
+2. **Improve Height and Baseline Handling**
+   - [ ] Write tests for different lowercase letter types (e.g., 'a', 'f', 'g') to ensure each has correct height and baseline alignment.
+   - [ ] Implement a matrix to define heights and baselines for each letter type (including special characters).
+
+3. **Externalize Letter Metrics**
+   - [ ] Move the letter height/baseline matrix to a JSON file in the `data/` folder.
+   - [ ] Update code to read letter metrics from the JSON file for:
+     - [ ] `data/AlphaCaps`
+     - [ ] `data/AlphaLower`
+     - [ ] `data/Numeric`
+     - [ ] `data/Special`
+     - [ ] `data/Hebrew`
+
+4. **Spacing Adjustments**
+   - [ ] Write tests for spacing between various letter pairs (e.g., 'cfp', 'ciip').
+   - [ ] Implement spacing logic based on the matrix.
+
+5. **Special Characters**
+   - [ ] Write tests and implement support for special characters (e.g., '.', ',', '!', '#', '`', '^') using the externalized matrix.
+
+6. **Generalization & Refactoring**
+   - [ ] Refactor code for maintainability and extensibility.
+   - [ ] Update documentation to reflect new architecture and data-driven approach.
 
 ---
 
